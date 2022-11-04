@@ -1,0 +1,28 @@
+# To install step 1:
+# conda env create --file tf_2_5.yml
+# wait for it...
+# conda activate tf_2_5
+# pip install -r requirements.txt
+# wait for it...
+# python train.py
+# please, please, please work!!
+# dlib>=19.13.1 https://github.com/davisking/dlib/issues/1872#issuecomment-945830901 had issues
+object_detection
+natsort
+opencv-contrib-python==4.5.5.62
+pyparsing>=2.0.3
+opencv_python_headless>=3.4.3.18
+imutils>=0.5.1
+future>=0.16.0
+pyunpack>=0.1.2
+requests>=2.20.0
+Markdown>=3.0.1
+paramiko>=2.4.2
+six>=1.11.0
+tensorflow-gpu==2.5.3
+tensorflow==2.5.3
+numpy>=1.13.3
+Ice>=0.0.2
+Pillow>=5.3.0
+paho_mqtt>=1.4.0
+tflite-model-maker==0.3.2
