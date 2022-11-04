@@ -3,6 +3,7 @@ import os, argparse, time
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='./data/dataset/', help='dataset path')
+parser.add_argument('--tfrecords', type=str, default='./data/tfrecords/', help='tfrecords path')
 parser.add_argument('--labelmap', type=str, default='./data/labelmap.pbtxt', help='labelmap path')
 parser.add_argument('--name', type=str, default='model.tflite', help='name of output model')
 parser.add_argument('--epochs', type=int, default=10, help='how many cycles a model trains for')
@@ -14,7 +15,7 @@ import tensorflow as tf
 
 if not tf.__version__.startswith('2.5'):
     print("For a tflite model to work in default FTC SDK you need to be training with TF 2.5 as of Nov. 2022")
-    print("Please refrence the README.md, we promise it's a good read")
+    print("Please reference the README.md, we promise it's a good read")
     print("Your current tensorflow version is", tf.__version__)
     if not input("Continue? (y/N) > ").lower() == 'y': exit()
 
@@ -45,7 +46,7 @@ if gpus:
         # Memory growth must be set before GPUs have been initialized
         print(e)
 
-# refrence https://www.tensorflow.org/lite/tutorials/model_maker_object_detection#quickstart for the diffrences--the actual latency is not accurate with tflite_model_maker 
+# reference https://www.tensorflow.org/lite/tutorials/model_maker_object_detection#quickstart for the diffrences--the actual latency is not accurate with tflite_model_maker 
 spec = model_spec.get("efficientdet_lite4")
 
 def load_pbtxt(pbtxt_path):
@@ -64,12 +65,12 @@ print(label_map)
 print("------ Loading data...")
 
 # tfrecord pattern, size, label_map
-data = object_detector.DataLoader(opt.dataset + "tfrecords/train.record", len(os.listdir(opt.dataset + 'images/')), label_map) # or, for second argument, input a number
-train_ds, test_ds = split_dataset(data)
-print(len(train_ds), "in train ds and ", len(train_ds), "in test ds")
+data = object_detector.DataLoader(opt.tfrecords + "train.record", len(os.listdir(opt.dataset + 'images/')), label_map) # or, for second argument, input a number
+# train_ds, test_ds = split_dataset(data)
+# print(len(train_ds), "in train ds and ", len(train_ds), "in test ds")
 
 print("------ Training...")
-model = object_detector.create(train_ds, model_spec=spec, epochs=opt.epochs, batch_size=opt.batch_size, do_train=True, train_whole_model=True, validation_data=test_ds)
+model = object_detector.create(data, model_spec=spec, epochs=opt.epochs, batch_size=opt.batch_size, do_train=True, train_whole_model=True)
 print("------ Created. Summary:")
 model.summary()
 

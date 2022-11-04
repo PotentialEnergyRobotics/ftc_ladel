@@ -1,23 +1,33 @@
-import tensorflow as tf
-import cv2 as cv
-import logging
-import os
-from natsort import natsorted
-import time
+import os, argparse, logging, time
 logging.basicConfig(level=logging.INFO, filename='tryit.txt', filemode='w', format="%(message)s")
 log = logging.getLogger('tryit')
 
-model_path="mechjeb_lite0.tflite"
-log.info(f"tf={tf.__version__}, model={model_path}")
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', type=str, default='./model.tflite', help='model path')
+parser.add_argument('--labelmap', type=str, default='./data/labelmap.pbtxt', help='labelmap path')
 
-#log.info("Load lables")
-#Load the label map
-with open("labelmap_mechjeb.txt", 'r') as f:
-    labels = [line.strip() for line in f.readlines()]
+opt = parser.parse_args()
+
+import tensorflow as tf
+import cv2 as cv
+from natsort import natsorted
+
+log.info(f"tf={tf.__version__}, model={opt.model}")
+
+# Load labelmap
+def load_pbtxt(pbtxt_path):
+	labels = []
+	if os.path.isfile(pbtxt_path):
+		with open(pbtxt_path, 'r') as lm:
+			labels = [line.split("'")[1] for line in lm.readlines() if "'" in line] # kind of crappy but should work :)
+	return labels
+
+labels = load_pbtxt(opt.labelmap)
+log.info(f"labels: {tf.__version__}, model={opt.model}")
 
 log.info("Load TFLite model and allocate tensors")
 
-interpreter = tf.lite.Interpreter(model_path=model_path, num_threads=8)
+interpreter = tf.lite.Interpreter(model_path=opt.model, num_threads=8)
 # Get input and output tensors.
 log.info("Get input and output tensors.")
 input_details = interpreter.get_input_details()

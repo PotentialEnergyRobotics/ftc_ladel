@@ -3,7 +3,7 @@
 
 ![The procrastination banner](./images/ladelbanner.png)
 
-Ladel is a TFLite+YoloV7 enabled labeling and training pipeline built for [First Tech Challenge](<https://www.firstinspires.org/robotics/ftc>)/TF 2.5, usable anywhere.
+Ladel is a TFLite+YOLOV7 enabled labeling and training pipeline built for [First Tech Challenge](<https://www.firstinspires.org/robotics/ftc>)/TF 2.5, usable anywhere.
 
 - [Ladel Pipeline](#ladel-pipeline)
   - [Note](#note)
@@ -18,7 +18,7 @@ Ladel is a TFLite+YoloV7 enabled labeling and training pipeline built for [First
     - [Some potential areas for improvment](#some-potential-areas-for-improvment)
   - [License](#license)
 
-Ladel is also a misspell of label. Creative, I know.
+Ladel is also a misspell of label. To spoon the data into TFLite/YOLOV7
 
 ## Note
 
@@ -43,38 +43,46 @@ AKA the best part
 
 ### Labeling keys
 
-- 'A' key goes back a frame
-- 'D' key goes forward a frame
-- 'P' key pauses or plays the video
+- 'a' key goes back a frame
+- 'd' key goes forward a frame
+- 'p' key pauses or plays the video
 - 'i' key adds new bounding boxes
 - 's' key deletes all bounding boxes
+- 'q' to close **important** otherwise csv will not save properly
 - 'lmb' left mouse deletes a specific bounding box clicked within
 - You can purge all the files on each run
 - You can start from the last frame saved on each run (to use more than one video)
 - Input labels in the console (cannot be a number because of the way tfrecords work)
 
+Tracks your initial box as you play the video, requiring a fraction of the work of other labeling tools.
+
 ## Training
 
 - Generate a file containing data with format used by train
-  - `python generate_tfrecord.py --csv_input=data/labels/annotations.csv --output_path=data/dataset/tfrecords/train.record --image_dir=data/dataset/images`
+  - `python generate_tfrecord.py --csv_input=data/dataset/labels/annotations.csv --output_path=data/tfrecords/train.record --image_dir=data/dataset/images`
 - One-shot make your model file! If you run out of memory, decrease the batch size
   - `python train.py`
+
+**Important note:** for GPU training to work with an NVIDIA GPU you must follow the instructions on [Tensorflow's install page](https://www.tensorflow.org/install/pip)
+We're really sorry, I know firsthand that this is painful.
+
+There are docker containers, if you'd prefer to take a different route but we have never used those in testing
 
 ## Other Files
 
 - splitter.py
   - used for splitting YOLOV7 data into train and test datasets
 - converter.py
-  - can currently convert from YOLOV7 format to tflite format
+  - can currently convert from YOLOV7 format to TFLite format
 - tryit.py
-  - use the webcam to try out tflite models (don't expect a decent FPS)
+  - use the webcam to try out TFLite models (don't expect a decent FPS)
 
 ## Implementation
 
 For FTC folks, mostly.
 
 - You need a [Vuforia](https://developer.vuforia.com/) key.
-- Plug into your robot controller,  put the generated tflite file somewhere, and copy the path.
+- Plug into your robot controller,  put the generated TFLite file somewhere, and copy the path.
 - In Android Studio, copy `FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTensorFlowObjectDetectionWebcam.java` into your team's code folder
 - Remove `@disabled`.
 - Change the `LABELS` to your labels.
@@ -99,8 +107,9 @@ Use issues tab to report it, and we'll get to it ASAP.
 - [ ] Better code, currently practicing anarchy system
 - [ ] Graphic design help
 - [ ] Better YOLOV7 support
+- [ ] Consolidate reused functions (like load labelmap)
 
-For now this is firmly in the pre-alpha state, if you could call it that
+For now this is firmly in the pre-alpha state, if you could call it that.
 
 ## License
 

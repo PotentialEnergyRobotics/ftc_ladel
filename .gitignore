@@ -1,2 +1,2 @@
-data/dataset
-data/model_out/
+data/dataset/*
+*.tflite

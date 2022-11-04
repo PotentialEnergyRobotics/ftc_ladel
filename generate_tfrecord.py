@@ -1,10 +1,10 @@
 """
 Usage:
     # Create train data:
-    python generate_tfrecord.py --csv_input=data/labels/annotations.csv --output_path=data/dataset/tfrecords/train.record --image_dir=data/dataset/images
+    python generate_tfrecord.py --csv_input=data/dataset/labels/annotations.csv --output_path=data/tfrecords/train.record --image_dir=data/dataset/images
      [or /train and (annotations)_train.csv]
     # Create test data:
-    python generate_tfrecord.py --csv_input=data/labels/annotations_test.csv --output_path=data/dataset/tfrecords/test.record --image_dir=data/images/test
+    python generate_tfrecord.py --csv_input=data/dataset/labels/annotations_test.csv --output_path=data/tfrecords/test.record --image_dir=data/dataset/images/test
 """
 from __future__ import division
 from __future__ import print_function
@@ -30,8 +30,8 @@ labels = load_pbtxt("data/labelmap.pbtxt")
 
 flags = tf.compat.v1.flags
 flags.DEFINE_string("csv_input", "", "data/dataset/labels/annotations.csv")
-flags.DEFINE_string("output_path", "", "data/dataset/tfrecords/train.record")
-flags.DEFINE_string("image_dir", "", "ladel/data/dataset/images")
+flags.DEFINE_string("output_path", "", "data/tfrecords/train.record")
+flags.DEFINE_string("image_dir", "", "data/dataset/images")
 FLAGS = flags.FLAGS
 
 # wooow such code I am good at coding 
