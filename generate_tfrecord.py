@@ -36,9 +36,9 @@ FLAGS = flags.FLAGS
 
 # wooow such code I am good at coding 
 if not os.path.exists(FLAGS.output_path):
-    os.mkdir(FLAGS.image_dir.split('images')[0] + 'tfrecord')
+    os.mkdir(FLAGS.image_dir.split('dataset')[0] + 'tfrecord')
 
-# refrence https://blog.roboflow.com/create-tfrecord/
+# reference https://blog.roboflow.com/create-tfrecord/
 def class_text_to_int(row_label):
 	return labels.index(row_label) + 1
 

@@ -6,6 +6,7 @@ parser.add_argument('--dataset', type=str, default='./data/dataset/', help='data
 parser.add_argument('--tfrecords', type=str, default='./data/tfrecords/', help='tfrecords path')
 parser.add_argument('--labelmap', type=str, default='./data/labelmap.pbtxt', help='labelmap path')
 parser.add_argument('--name', type=str, default='model.tflite', help='name of output model')
+parser.add_argument('--target', type=str, default='./data/model_out/', help='model output path (danger, could stop save)')
 parser.add_argument('--epochs', type=int, default=10, help='how many cycles a model trains for')
 parser.add_argument('--batch-size', type=int, default=2, help='number of images processed per each iteration, should help with memory issues')
 
@@ -74,8 +75,8 @@ model = object_detector.create(data, model_spec=spec, epochs=opt.epochs, batch_s
 print("------ Created. Summary:")
 model.summary()
 
-print("------ Exporting...")
-model.export(export_dir='.', tflite_filename=opt.name)
+print("------ Exporting... (this could take a very long while)")
+model.export(export_dir=opt.model_out, tflite_filename=opt.name)
 
 print("------ All finished...")
 
