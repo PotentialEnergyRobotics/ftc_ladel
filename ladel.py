@@ -51,9 +51,11 @@ if not is_dataset_paths:
     os.mkdir(opt.dataset + "images/")
     os.mkdir(opt.dataset + "labels/")
 
+use_last = input("Use last (Y/n) > ").lower() == 'y'
 if opt.mode == 'tflite':
-    csv_writer = open(opt.dataset + "labels/annotations.csv", 'w+')
-    csv_writer.write("filename,xmin,xmax,ymin,ymax,class\n")
+    csv_writer = open(opt.dataset + "labels/annotations.csv", 'a')
+    if not use_last:
+        csv_writer.write("filename,xmin,xmax,ymin,ymax,class\n")
 
 def contains(pos, bb):
     return pos[0]>bb[0] and pos[0]<bb[0]+bb[2] and pos[1]>bb[1] and pos[1]<bb[1]+bb[3]
@@ -125,7 +127,7 @@ def update(frame):
             )
     cv2.imshow("Frame", frame)
 
-frame_num = max([int(name.split('.')[0]) for name in os.listdir(opt.dataset + 'images/')]) if not do_purge and input("Use last (Y/n) > ").lower() =='y' else 0
+frame_num = max([int(name.split('.')[0]) for name in os.listdir(opt.dataset + 'images/')]) if not do_purge and use_last else 0
 play = True
 while cap.isOpened():
     key = cv2.waitKey(1) & 0xFF
