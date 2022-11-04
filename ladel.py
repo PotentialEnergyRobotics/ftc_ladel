@@ -111,7 +111,7 @@ def update(frame):
 
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         
-        if opt.mode == 'opencv':
+        if opt.mode == 'yolov7':
             open(opt.dataset + 'labels/' + str(frame_num) + ".txt", 'w').write(
                 f"{labels[box_n]} {(x+(0.5*w)) / opt.img_size} {(y+(0.5*h)) / opt.img_size} {(w) / opt.img_size} {(h) / opt.img_size}\n"
             )

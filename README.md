@@ -12,6 +12,7 @@ Ladel is a TFLite+YOLOV7 enabled labeling and training pipeline built for [First
     - [Labeling keys](#labeling-keys)
   - [Training](#training)
   - [Other Files](#other-files)
+  - [YOLOV7 Notes](#yolov7-notes)
   - [Implementation](#implementation)
   - [Bugs](#bugs)
   - [Contributing](#contributing)
@@ -66,7 +67,7 @@ Tracks your initial box as you play the video, requiring a fraction of the work 
 **Important note:** for GPU training to work with an NVIDIA GPU you must follow the instructions on [Tensorflow's install page](https://www.tensorflow.org/install/pip)
 We're really sorry, I know firsthand that this is painful.
 
-There are docker containers, if you'd prefer to take a different route but we have never used those in testing
+There are docker containers, if you'd prefer to take a different route but we have never used those in testing.
 
 ## Other Files
 
@@ -76,6 +77,28 @@ There are docker containers, if you'd prefer to take a different route but we ha
   - can currently convert from YOLOV7 format to TFLite format
 - tryit.py
   - use the webcam to try out TFLite models (don't expect a decent FPS)
+
+## YOLOV7 Notes
+
+To use this with YOLOV7 instead of TFLite run like this:
+
+```bash
+python ladel.py --mode yolov7
+python splitter.py --mode yolov7
+git clone https://github.com/WongKinYiu/yolov7/
+```
+
+You can also convert existing TFLite data (needs to be implemented, good luck)
+
+`python converter.py`
+
+- Follow the README.md instructions in the YOLOV7 repository for setup.
+- Copy the data/dataset to the top level of YOLOV7
+- Copy one of the files at ./data/ and edit it with the path to your dataset, for val data just make another folder and copy some from test
+
+Then run:
+
+`python train.py --workers 2 --device 0 --batch-size 16 --data data/<youryaml>.yaml --img 640 640 --cfg cfg/training/yolov7-tiny.yaml --weights '' --name tiny-<yourmodel> --hyp data/hyp.scratch.tiny.yaml --epochs 10`
 
 ## Implementation
 

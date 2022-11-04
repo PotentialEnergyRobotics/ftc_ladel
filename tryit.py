@@ -5,7 +5,8 @@ log = logging.getLogger('tryit')
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default='./data/model_out/model.tflite', help='model path')
 parser.add_argument('--labelmap', type=str, default='./data/labelmap.pbtxt', help='labelmap path')
-parser.add_argument('--min-confidence', type=int, default=0.1, help='at what point should tryit spit out a label?')
+parser.add_argument('--img-size', nargs='+', type=int, default=640, help='image sizes, always a square')
+parser.add_argument('--min-confidence', type=float, default=0.1, help='at what point should tryit spit out a label?')
 
 opt = parser.parse_args()
 
@@ -59,35 +60,20 @@ for file in images:
     log.info(f"---- image={file}")
     # read and resize the image
     img = cv.imread(r"data\\dataset\\images\\{}".format(file))
-    img = cv.resize(img, (320, 320))
-    # log.info(f"set_tensor")
+    img = cv.resize(img, (opt.img_size, opt.img_size))
     
     interpreter.set_tensor(input_details[0]['index'], [img])
-    # log.info(f"invoke")
     interpreter.invoke()
-    # log.info("Retrieve detection results")
     boxes = interpreter.get_tensor(output_details[0]['index'])[0] # Bounding box coordinates of detected objects
     classes = interpreter.get_tensor(output_details[1]['index'])[0] # Class index of detected objects
     scores = interpreter.get_tensor(output_details[2]['index'])[0] # Confidence of detected objects
     log.info(f"scores={scores}")
     if not hasattr(scores, "__len__"):
         scores = [scores]
-    #log.info(f"scores2={scores}")
     for i in range(len(scores)):
-        if ((scores[i] > 0.5) and (scores[i] <= 1.0)):
+        if ((scores[i] > opt.min_confidence) and (scores[i] <= 1.0)):
             object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
             label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
             log.info(f"\t{label}")
 
-    # output_data = interpreter.get_tensor(output_details[0]['index'])
-    # log.info(f"output_data {output_data}")
-    # if (output_data[0][0] > 200):
-    #     log.info("file {} -> zero".format(file.stem))
-    # elif (output_data[0][1] > 200):
-    #     log.info("file {} -> one".format(file.stem))
-    # elif (output_data[0][2] > 200):
-    #     log.info("file {} -> two".format(file.stem))
-    # elif (output_data[0][3] > 200):
-    #     log.info("file {} -> three".format(file.stem))
-    # else:
-    #     log.info("file {} -> unknown".format(file.stem))
+print("Check ./tryit.txt")

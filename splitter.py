@@ -3,7 +3,7 @@ import os, glob, random, argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='./data/dataset_split/', help='dataset path')
 parser.add_argument('--train-percent', type=int, default=95, help='train-test split percent train')
-parser.add_argument('--target', type=str, default='tflite', help='convert to')
+parser.add_argument('--mode', type=str, default='yolov7', help='what to split')
 
 opt = parser.parse_args()
 train_percent = opt.train_percent / 100 
@@ -38,7 +38,7 @@ if not os.path.exists(opt.dataset + 'labels/test'):
     os.mkdir(opt.dataset + 'labels/test')
 
 
-if opt.target == 'opencv':
+if opt.mode == 'yolov7':
     train = [file.split('.jpg')[0].replace('images', 'labels') + '.txt' for file in files[:int(len(files) * train_percent)]]
     test = [file.split('.jpg')[0].replace('images', 'labels') + '.txt' for file in files[int(len(files) * train_percent):]]
 
@@ -51,7 +51,7 @@ if opt.target == 'opencv':
     for file in test:
         print(file, opt.dataset + 'labels/test/' + file.split('\\')[1])
         os.rename(file, opt.dataset + 'labels/test/' + file.split('\\')[1])
-elif opt.target == 'tflite':
+elif opt.mode == 'tflite':
     annotations_lines = open(opt.dataset + 'labels/annotations.csv', 'r').readlines()
     
     train_writer = open(opt.dataset + 'labels/train/annotations.csv', 'w')
