@@ -16,7 +16,7 @@ Ladel is a TFLite+YOLOV7 enabled labeling and training pipeline built for [First
   - [Implementation](#implementation)
   - [Bugs](#bugs)
   - [Contributing](#contributing)
-    - [Some potential areas for improvment](#some-potential-areas-for-improvment)
+    - [Some potential areas for improvement](#some-potential-areas-for-improvement)
   - [License](#license)
 
 Ladel is also a misspell of label. To spoon the data into TFLite/YOLOV7
@@ -120,7 +120,7 @@ Use issues tab to report it, and we'll get to it ASAP.
 
 [Fork it, change it, pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork). Or make a feature request in issues tab. I'll get to it ASAP.
 
-### Some potential areas for improvment
+### Some potential areas for improvement
 
 - [ ] Improved/advanced labeler
   - [ ] Frame skipping

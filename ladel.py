@@ -43,6 +43,9 @@ if is_dataset_paths:
         shutil.rmtree(opt.dataset + "labels/")
         print("PURGED")
 
+if not os.path.exists(opt.dataset):
+    os.mkdir(opt.dataset)
+
 is_dataset_paths = os.path.exists(opt.dataset + "images/") or os.path.exists(opt.dataset + "labels/")
 if not is_dataset_paths:
     os.mkdir(opt.dataset + "images/")
