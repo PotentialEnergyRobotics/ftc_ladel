@@ -6,11 +6,16 @@ parser.add_argument('--dataset', type=str, default='./data/dataset/', help='data
 parser.add_argument('--tfrecords', type=str, default='./data/tfrecords/', help='tfrecords path')
 parser.add_argument('--labelmap', type=str, default='./data/labelmap.pbtxt', help='labelmap path')
 parser.add_argument('--name', type=str, default='model.tflite', help='name of output model')
+parser.add_argument('--model-out', type=str, default='./data/model_out/', help='name of output model')
 parser.add_argument('--target', type=str, default='./data/model_out/', help='model output path (danger, could stop save)')
 parser.add_argument('--epochs', type=int, default=10, help='how many cycles a model trains for')
 parser.add_argument('--batch-size', type=int, default=2, help='number of images processed per each iteration, should help with memory issues')
 
 opt = parser.parse_args()
+
+if not os.path.exists(opt.model_out):
+    print("Your model out path at", opt.model_out, "does not exist. Your model will not save.")
+    exit()
 
 import tensorflow as tf
 
