@@ -1,6 +1,8 @@
 data/dataset/*
+data/bkp_data/*
+data/old_data/*
 data/model_out/*
-*.tflite
 *.record
+*.tflite
 *.mp4
 !input_video.mp4

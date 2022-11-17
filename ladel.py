@@ -23,6 +23,10 @@ parser.add_argument('--mode', type=str, default='tflite', help='labeling mode')
 
 opt = parser.parse_args()
 
+if not os.path.exists(opt.video):
+    print("No video, cannot continue")
+    exit()
+
 labels = []
 trackers = cv2.legacy.MultiTracker_create()
 
@@ -143,7 +147,9 @@ while cap.isOpened():
             frame = cv2.imread(opt.dataset + 'images/' + str(frame_num) + '.jpg')
         else:
             ret, frame = cap.read()
-            if not ret: break
+            if not ret: 
+                print("The end...")
+                break
         frame = cv2.resize(frame, (opt.img_size, opt.img_size))
         update(frame)
     elif key == ord('a'):

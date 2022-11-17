@@ -10,6 +10,7 @@ parser.add_argument('--model-out', type=str, default='./data/model_out/', help='
 parser.add_argument('--target', type=str, default='./data/model_out/', help='model output path (danger, could stop save)')
 parser.add_argument('--epochs', type=int, default=10, help='how many cycles a model trains for')
 parser.add_argument('--batch-size', type=int, default=2, help='number of images processed per each iteration, should help with memory issues')
+parser.add_argument('--lite', type=str, default=2, choices={'0', '1', '2', '3', '4'}, help='model type-lower is faster but less accurate')
 
 opt = parser.parse_args()
 
@@ -53,7 +54,7 @@ if gpus:
         print(e)
 
 # reference https://www.tensorflow.org/lite/tutorials/model_maker_object_detection#quickstart for the diffrences--the actual latency is not accurate with tflite_model_maker 
-spec = model_spec.get("efficientdet_lite4")
+spec = model_spec.get("efficientdet_lite" + opt.lite)
 
 def load_pbtxt(pbtxt_path):
 	labels = []

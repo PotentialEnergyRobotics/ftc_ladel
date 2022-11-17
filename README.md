@@ -18,6 +18,7 @@ Ladel is a TFLite+YOLOV7 enabled labeling and training pipeline built for [First
   - [Contributing](#contributing)
     - [Some potential areas for improvement](#some-potential-areas-for-improvement)
   - [License](#license)
+  - [Press Buttons](#press-buttons)
 
 Ladel is also a misspell of label. To spoon the data into TFLite/YOLOV7
 
@@ -137,3 +138,12 @@ For now this is firmly in the pre-alpha state, if you could call it that.
 ## License
 
 Adding a license is difficult as a significant portion of the code is copied line-for-line, and I'm not a lawyer. I'd say do whatever you want, and the original authors probably won't care but if you really need to be sure just use google.com to search some portion of the code and check whatever comes up for license.
+
+## Press Buttons
+
+Press these buttons... press them... press them ALL
+
+DEW IT
+
+[![Watch on GitHub](https://img.shields.io/github/watchers/PotentialEnergyRobotics/ftc_ladel.svg?style=social)](https://github.com/PotentialEnergyRobotics/ftc_ladel/watchers)
+[![Star on GitHub](https://img.shields.io/github/stars/PotentialEnergyRobotics/ftc_ladel.svg?style=social)](https://github.com/PotentialEnergyRobotics/ftc_ladel/stargazers)
