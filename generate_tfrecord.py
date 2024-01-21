@@ -34,6 +34,10 @@ flags.DEFINE_string("output_path", "", "data/tfrecords/train.record")
 flags.DEFINE_string("image_dir", "", "data/dataset/images")
 FLAGS = flags.FLAGS
 
+print(FLAGS.csv_input)
+print(FLAGS.output_path)
+print(FLAGS.image_dir)
+
 # wooow such code I am good at coding 
 if not os.path.exists(FLAGS.output_path):
     os.mkdir(FLAGS.image_dir.split('dataset')[0] + 'tfrecord')
@@ -48,6 +52,9 @@ def split(df, group):
     return [data(filename, gb.get_group(x)) for filename, x in zip(gb.groups.keys(), gb.groups)]
 
 def create_tf_example(group, path):
+    # wtf??
+    if group.filename == "filename":
+        return
     with tf.compat.v1.gfile.GFile(os.path.join(path, "{}".format(group.filename)), "rb") as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
@@ -64,10 +71,10 @@ def create_tf_example(group, path):
     classes = []
 
     for index, row in group.object.iterrows():
-        xmins.append(row["xmin"] / width)
-        xmaxs.append(row["xmax"] / width)
-        ymins.append(row["ymin"] / height)
-        ymaxs.append(row["ymax"] / height)
+        xmins.append(int(row["xmin"]) / width)
+        xmaxs.append(int(row["xmax"]) / width)
+        ymins.append(int(row["ymin"]) / height)
+        ymaxs.append(int(row["ymax"]) / height)
         classes_text.append(row["class"].encode("utf8"))
         classes.append(class_text_to_int(row["class"]))
 
@@ -94,7 +101,8 @@ def main(_):
     grouped = split(examples, "filename")
     for group in grouped:
         tf_example = create_tf_example(group, path)
-        writer.write(tf_example.SerializeToString())
+        if tf_example is not None:
+            writer.write(tf_example.SerializeToString())
 
     writer.close()
     output_path = os.path.join(os.getcwd(), FLAGS.output_path)

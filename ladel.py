@@ -89,7 +89,7 @@ def onMouse(event, x, y, flags, param):
 def select_objs(frame, trackers):
     global labels
 
-    box = cv2.selectROIs("Frame", frame, fromCenter=False, showCrosshair=True)
+    box = [cv2.selectROI("Frame", frame, fromCenter=False, showCrosshair=True)]
     box = tuple(map(tuple, box))
 
     for bb in box:

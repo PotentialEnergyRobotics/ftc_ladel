@@ -15,7 +15,9 @@ parser.add_argument('--lite', type=str, default=2, choices={'0', '1', '2', '3', 
 opt = parser.parse_args()
 
 if not os.path.exists(opt.model_out):
+    os.mkdir(opt.model_out)
     print("Your model out path at", opt.model_out, "does not exist. Your model will not save.")
+    print("We tried to create it, but you should probably check anyways.")
     exit()
 
 import tensorflow as tf
@@ -54,7 +56,7 @@ if gpus:
         print(e)
 
 # reference https://www.tensorflow.org/lite/tutorials/model_maker_object_detection#quickstart for the diffrences--the actual latency is not accurate with tflite_model_maker 
-spec = model_spec.get("efficientdet_lite" + opt.lite)
+spec = model_spec.get("efficientdet_lite" + str(opt.lite))
 
 def load_pbtxt(pbtxt_path):
 	labels = []

@@ -1,12 +1,8 @@
 {
   id: 1
-  name: 'drax'
+  name: 'red'
 }
 {
   id: 2
-  name: 'spring'
-}
-{
-  id: 3
-  name: 'ryan'
+  name: 'blue'
 }
